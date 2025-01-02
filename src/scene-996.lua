@@ -20,8 +20,9 @@ function K.init()
 	-- help text to appear
 	help[996] = ""
 
-	-- testing file write using lua io
-	local f = io.open(love.filesystem.getSaveDirectory().."lua-io.txt", "w")
+	-- testing file write using lua io [R36S ArkOS requirement]
+	os.execute("mkdir " .. love.filesystem.getSaveDirectory()) -- force creation of Directory
+	local f = io.open(love.filesystem.getSaveDirectory().."//lua-io.txt", "w")
 	f:write("Test LUA io method")
 	f:close()
 
@@ -277,10 +278,20 @@ function K.draw()
 	love.graphics.printf("UserDirectory: " .. love.filesystem.getUserDirectory(), monoFont, 20, 20*7, 600, "left") -- max 22 lines 20*22
 	love.graphics.printf("WorkingDirectory:" .. love.filesystem.getWorkingDirectory(), monoFont, 20, 20*8, 600, "left") -- max 22 lines 20*22
 	love.graphics.printf("isFused: " .. tostring(love.filesystem.isFused()), monoFont, 20, 20*9, 600, "left") -- max 22 lines 20*22
-	love.graphics.printf("Starting test 10 ...", monoFont, 20, 20*10, 600, "left") -- max 22 lines 20*22
+	love.graphics.printf("areSymlinksEnabled: " .. tostring(love.filesystem.areSymlinksEnabled()), monoFont, 20, 20*10, 600, "left") -- max 22 lines 20*22
+
 	love.graphics.printf("Starting test 11 ...", monoFont, 20, 20*11, 600, "left") -- max 22 lines 20*22
+
+
 	love.graphics.printf("Starting test 12 ...", monoFont, 20, 20*12, 600, "left") -- max 22 lines 20*22
-	love.graphics.printf("Starting test 13 ...", monoFont, 20, 20*13, 600, "left") -- max 22 lines 20*22
+
+	local success, message =love.filesystem.read( "lua-io.txt")
+	if success then 
+	love.graphics.printf('read file passed: '..success, monoFont, 20, 20*13, 600, "left") -- max 22 lines 20*22
+	else 
+	love.graphics.printf('read file failed: '..message, monoFont, 20, 20*13, 600, "left") -- max 22 lines 20*22
+	end
+
 	love.graphics.printf("Starting test 14 ...", monoFont, 20, 20*14, 600, "left") -- max 22 lines 20*22
 	love.graphics.printf("Starting test 15 ...", monoFont, 20, 20*15, 600, "left") -- max 22 lines 20*22
 	love.graphics.printf("Starting test 16 ...", monoFont, 20, 20*16, 600, "left") -- max 22 lines 20*22

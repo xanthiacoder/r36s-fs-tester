@@ -66,20 +66,7 @@ game.power.state, game.power.percent, game.power.timeleft = love.system.getPower
 function love.load()
 	-- load fonts
     monoFont = love.graphics.newFont("JetBrainsMonoNL-Regular.ttf", 12)
-	-- load autosaves
-	if love.filesystem.getInfo( "game-time.txt" ) == nil then
-		love.filesystem.newFile("game-time.txt")
-		game.time = 0
-		-- test file write
-		local success, message =love.filesystem.write( "game-time.txt", game.time)
-		if success then 
-			game.tooltip = "file created"
-		else 
-			game.tooltip = "file not created: " .. message
-		end
-	else
-		game.time = love.filesystem.read("game-time.txt")
-	end
+
     -- initialise all scenes
 	scene[996].init()
 	scene[999].init()
@@ -94,8 +81,6 @@ scene[scene.current].input()
 -- callback for graceful exit
 function love.quit()
   	-- autosave all data
-  	game.time = math.floor(game.time + love.timer.getTime())
-	love.filesystem.write( "game-time.txt", game.time )  	
 end
 
 
